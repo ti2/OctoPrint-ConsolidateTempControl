@@ -1,9 +1,6 @@
 # coding=utf-8
 from __future__ import absolute_import, division, print_function
 
-__license__ = 'GNU Affero General Public License http://www.gnu.org/licenses/agpl.html'
-__copyright__ = "Copyright (C) 2018 The OctoPrint Project - Released under terms of the AGPLv3 License"
-
 import octoprint.plugin
 
 class ConsolidateTempControlPlugin(octoprint.plugin.TemplatePlugin,
@@ -24,12 +21,12 @@ class ConsolidateTempControlPlugin(octoprint.plugin.TemplatePlugin,
 
 				# version check: github repository
 				type="github_release",
-				user="foosel",
+				user="jneilliii",
 				repo="OctoPrint-ConsolidateTempControl",
 				current=self._plugin_version,
 
 				# update method: pip
-				pip="https://github.com/foosel/OctoPrint-ConsolidateTempControl/archive/{target_version}.zip"
+				pip="https://github.com/jneilliii/OctoPrint-ConsolidateTempControl/archive/{target_version}.zip"
 			)
 		)
 
