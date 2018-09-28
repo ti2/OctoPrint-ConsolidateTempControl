@@ -31,11 +31,15 @@ class ConsolidateTempControlPlugin(octoprint.plugin.TemplatePlugin,
 		)
 
 __plugin_name__ = "Consolidate Temp Control"
-__plugin_implementation__ = ConsolidateTempControlPlugin()
-__plugin_settings_overlay__ = dict(appearance=dict(components=dict(order=dict(tab=["plugin_consolidate_temp_control",
-                                                                                   "gcodeviewer",
-                                                                                   "terminal",
-                                                                                   "timelapse"]))))
-__plugin_hooks__ = {
-	"octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.update_hook
-}
+
+def __plugin_load__():
+	global __plugin_implementation__
+	__plugin_implementation__ = ConsolidateTempControlPlugin()
+	
+	global __plugin_hooks__
+	__plugin_hooks__ = {
+		"octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.update_hook
+	}	
+	
+	global __plugin_settings_overlay__
+	__plugin_settings_overlay__ = dict(appearance=dict(components=dict(order=dict(tab=["plugin_consolidate_temp_control"]))))
