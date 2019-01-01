@@ -8,15 +8,13 @@ $(function() {
 
 		// don't load when touchui is active and hide tab.
 		if (self.touchui && self.touchui.isActive()) {
-			console.log('Consolidate Temp Control: hiding tab and bypassing adjustments because of touchui.');
-			$('#tab_plugin_consolidate_temp_control_link').hide();
+			$('#tab_plugin_consolidate_temp_control_link, #tab_plugin_consolidate_temp_control').remove();
 			return;
 		}
 
-		console.log('Consolidate Temp Control: Hiding temp and control tab, applying width adjustments, and setting callbacks.');
-
-		// hide orginal temp and control tab
-		$('#control_link,#temp_link').hide();
+		// move original temp and control tab content and remove tab links.
+		$('#tabs_content > #temp, #tabs_content > #control').appendTo('#tab_plugin_consolidate_temp_control > div.row-fluid').addClass('span6').removeClass('tab-pane');
+		$('#temp_link, #control_link').remove();
 
 		// page container adjustments
 		$('div.page-container').css({'min-width':'1900px'});
@@ -43,7 +41,6 @@ $(function() {
 
 		// fix control tab
 		self.onTabChange = function(current, previous) {
-			console.log('Consolidate Temp Control: onTabChange called.');
 			if ((current === "#tab_plugin_consolidate_temp_control") || (current === "#temp") || (current === "#control")) {
 				var selected = OctoPrint.coreui.selectedTab;
 				OctoPrint.coreui.selectedTab = "#control";
@@ -55,16 +52,16 @@ $(function() {
 		};
 
 		self.onAllBound = function(allViewModels) {
-			console.log('Consolidate Temp Control: onAllBound called.');
 			var selected = OctoPrint.coreui.selectedTab;
 			OctoPrint.coreui.selectedTab = "#control";
 			self.controlViewModel.onAllBound(allViewModels);
 			OctoPrint.coreui.selectedTab = selected;
-			self.temperatureViewModel._initializePlot();
+			if (selected == "#tab_plugin_consolidate_temp_control" || selected == "#temp") {
+				self.temperatureViewModel._initializePlot();
+			}
 		};
 
 		self.controlViewModel.onBrowserTabVisibilityChange = function(status) {
-			console.log('Consolidate Temp Control: onBrowserTabVisibilityChange called.');
 			if (status) {
 				var selected = OctoPrint.coreui.selectedTab;
 				OctoPrint.coreui.selectedTab = "#control";
@@ -77,7 +74,6 @@ $(function() {
 
 		// fix temperature tab
 		self.onAfterTabChange = function(current, previous) {
-			console.log('Consolidate Temp Control: onAfterTabChange called.');
 			if ((current === "#tab_plugin_consolidate_temp_control") || (current === "#temp") || (current === "#control")) {
 				if (!self.temperatureViewModel.plot) {
 					self.temperatureViewModel._initializePlot();
