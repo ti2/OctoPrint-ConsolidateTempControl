@@ -1,3 +1,4 @@
+<!-- ko if: (!touchui && !touchui.isActive()) -->
 <div class="row-fluid">
 	<div id="temp" class="span6">
 		{% include 'tabs/temperature.jinja2' %}
@@ -6,3 +7,4 @@
 		{% include 'tabs/control.jinja2' %}
 	</div>
 </div>
+<!-- /ko -->
