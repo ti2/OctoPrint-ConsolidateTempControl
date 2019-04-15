@@ -31,48 +31,6 @@ $(function() {
 		// footer adjustments
 		$('div.container.octoprint-container > div.footer').css({'padding-left':'20px','padding-right':'20px'});
 
-        // fix control tab
-        self.onTabChange = function(current, previous) {
-            if ((current === "#tab_plugin_consolidate_temp_control") || (current === "#temp") || (current === "#control")) {
-                var selected = OctoPrint.coreui.selectedTab;
-                OctoPrint.coreui.selectedTab = "#control";
-                self.controlViewModel.onTabChange("#control", previous);
-                OctoPrint.coreui.selectedTab = selected;
-            } else if (previous === "#tab_plugin_consolidate_temp_control") {
-                self.controlViewModel.onTabChange(current, "#control");
-            }
-        };
-
-        self.onAllBound = function(allViewModels) {
-			var selected = OctoPrint.coreui.selectedTab;
-			OctoPrint.coreui.selectedTab = "#control";
-			self.controlViewModel.onAllBound(allViewModels);
-			OctoPrint.coreui.selectedTab = selected;
-			self.temperatureViewModel._initializePlot();
-        };
-		
-        self.controlViewModel.onBrowserTabVisibilityChange = function(status) {
-            if (status) {
-                var selected = OctoPrint.coreui.selectedTab;
-				OctoPrint.coreui.selectedTab = "#control";
-                self.controlViewModel._enableWebcam();
-                OctoPrint.coreui.selectedTab = selected;
-            } else {
-                self.controlViewModel._disableWebcam();
-            }
-        };
-
-        // fix temperature tab
-        self.onAfterTabChange = function(current, previous) {
-            if ((current === "#tab_plugin_consolidate_temp_control") || (current === "#temp") || (current === "#control")) {
-				if (!self.temperatureViewModel.plot) {
-					self.temperatureViewModel._initializePlot();
-				} else {
-					self.temperatureViewModel.updatePlot();
-				}				
-                self.temperatureViewModel.onAfterTabChange("#temp", previous);
-            } 
-        }
     }
 
     OCTOPRINT_VIEWMODELS.push({
